@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const posts = [
+            { title: 'post one', body: 'this is post one' },
+            { title: 'post two', body: 'this is post two' }
+        ];
+
+        function getPosts() {
+            setTimeout(() => {
+                let output = '';
+                for (let i = 0; i < posts.length; i++) {
+                    output += `<li> ${posts[i].title} </li>`;
+                }
+                document.body.innerHTML = output;
+            }, 1000);
+        }
+
+        function createPost(post) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    posts.push(post);
+                    const error = false; // Assuming error should be false
+                    if (!error) {
+                        resolve();
+                    } else {
+                        reject('Error: something went wrong');
+                    }
+                }, 2000);
+            });
+        }
+
+        function deletePost() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (posts.length !== 0) {
+                        resolve(posts.pop());
+                    } else {
+                        reject('Array is empty');
+                    }
+                }, 1000);
+            });
+        }
+
+        function updateLastUserActivityTime() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const currentTime = new Date().toLocaleTimeString();
+                    resolve(currentTime);
+                }, 1000);
+            });
+        }
+
+        createPost({ title: 'post three', body: 'this is post three' })
+            .then(getPosts)
+            .catch((err) => console.log(err))
+            .then(deletePost)
+            .catch((err) => console.log(err));
+    </script>
+</body>
+</html>
